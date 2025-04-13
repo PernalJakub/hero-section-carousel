@@ -798,16 +798,18 @@
           const leftArrow = card.querySelector(".arrow.left");
           const rightArrow = card.querySelector(".arrow.right");
 
-          if (index === current) {
-            if (leftArrow) {
-              leftArrow.style.display = current === firstReal ? "none" : "flex";
+          if (!isTouchDevice) {
+            if (index === current) {
+              if (leftArrow) {
+                leftArrow.style.display = current === firstReal ? "none" : "flex";
+              }
+              if (rightArrow) {
+                rightArrow.style.display = current === lastReal ? "none" : "flex";
+              }
+            } else {
+              if (leftArrow) leftArrow.style.display = "none";
+              if (rightArrow) rightArrow.style.display = "none";
             }
-            if (rightArrow) {
-              rightArrow.style.display = current === lastReal ? "none" : "flex";
-            }
-          } else {
-            if (leftArrow) leftArrow.style.display = "none";
-            if (rightArrow) rightArrow.style.display = "none";
           }
         });
 
