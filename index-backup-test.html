@@ -788,7 +788,8 @@
       const lastReal = total - 2;
 
       const updateSlider = () => {
-        const container = document.querySelector('.slider-container');
+      track.style.transition = "transform 0.5s ease-in-out";
+      const container = document.querySelector('.slider-container');
         const containerWidth = container.offsetWidth;
         const card = cards[current];
         const cardLeftInTrack = card.offsetLeft;
@@ -927,6 +928,7 @@
             const intro = document.getElementById("intro-animation");
             if (intro) {
               intro.style.display = "none";
+              intro.style.pointerEvents = "none";
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
