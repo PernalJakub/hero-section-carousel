@@ -767,6 +767,13 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const track = document.getElementById("track");
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      if (isTouchDevice) {
+        document.querySelectorAll(".arrow").forEach(arrow => {
+          arrow.style.display = "none";
+        });
+      }
       const dots = document.getElementById("dots");
       const cards = track.children;
       const total = cards.length;
