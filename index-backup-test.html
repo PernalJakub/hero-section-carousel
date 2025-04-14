@@ -261,6 +261,8 @@
       padding: 0 clamp(20px, 5vw, 60px);
       padding-top: 10px;
       padding-bottom: 15px;
+      position: relative;
+      z-index: 1000;
     }
 
     @media (max-width: 599px) {
@@ -703,12 +705,7 @@
       pointer-events: auto;
     }
   }
-
-  .intro-overlay.inactive {
-  display: none !important;
-  pointer-events: none !important;
-  touch-action: none !important;
-}
+  
 
   </style>
 </head>
@@ -939,7 +936,9 @@
           setTimeout(() => {
             const intro = document.getElementById("intro-animation");
             if (intro) {
-              intro.classList.add("inactive");
+              intro.style.display = "none";
+              intro.style.pointerEvents = "none";
+              intro.style.zIndex = "-1";
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
