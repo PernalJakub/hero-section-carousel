@@ -260,7 +260,8 @@
       gap: 20px;
       padding: 0 clamp(20px, 5vw, 60px);
       padding-top: 10px;
-      padding-bottom: 15px;
+    padding-bottom: 15px;
+    touch-action: none;
     }
 
     @media (max-width: 599px) {
@@ -899,11 +900,13 @@
   let isDragging = false;
 
   track.addEventListener("touchstart", (e) => {
+    e.preventDefault();
     startX = e.touches[0].clientX;
     isDragging = true;
-  });
+  }, { passive: false });
 
   track.addEventListener("touchmove", (e) => {
+    e.preventDefault();
     if (!isDragging) return;
     const currentX = e.touches[0].clientX;
     const diffX = startX - currentX;
@@ -918,7 +921,7 @@
       }
       isDragging = false;
     }
-  });
+  }, { passive: false });
 
   track.addEventListener("touchend", () => {
     isDragging = false;
