@@ -261,8 +261,6 @@
       padding: 0 clamp(20px, 5vw, 60px);
       padding-top: 10px;
       padding-bottom: 15px;
-      position: relative;
-      z-index: 1000;
     }
 
     @media (max-width: 599px) {
@@ -781,7 +779,9 @@
   </section>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+  let lastClickTime = 0;
+  const CLICK_DELAY = 500; // w ms
+  document.addEventListener("DOMContentLoaded", () => {
       const track = document.getElementById("track");
       const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       
@@ -844,6 +844,9 @@
 
       document.querySelectorAll(".card .arrow.left").forEach(btn => {
         btn.addEventListener("click", () => {
+          const now = Date.now();
+          if (now - lastClickTime < CLICK_DELAY) return;
+          lastClickTime = now;
           if (current > firstReal) {
             current--;
             updateSlider();
@@ -853,6 +856,9 @@
 
       document.querySelectorAll(".card .arrow.right").forEach(btn => {
         btn.addEventListener("click", () => {
+          const now = Date.now();
+          if (now - lastClickTime < CLICK_DELAY) return;
+          lastClickTime = now;
           if (current < lastReal) {
             current++;
             updateSlider();
