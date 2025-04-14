@@ -788,8 +788,7 @@
       const lastReal = total - 2;
 
       const updateSlider = () => {
-      track.style.transition = "transform 0.5s ease-in-out";
-      const container = document.querySelector('.slider-container');
+        const container = document.querySelector('.slider-container');
         const containerWidth = container.offsetWidth;
         const card = cards[current];
         const cardLeftInTrack = card.offsetLeft;
@@ -879,64 +878,34 @@
 
       function enableTouchSwipe() {
   if (window.innerWidth >= 992) return;
-  
+
   let startX = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let animationID = 0;
   let isDragging = false;
-  
-  function getTranslateX(element) {
-    const style = window.getComputedStyle(element);
-    const matrix = new WebKitCSSMatrix(style.transform);
-    return matrix.m41;
-  }
-  
-  function animation() {
-    track.style.transform = `translateX(${currentTranslate}px)`;
-    if (isDragging) requestAnimationFrame(animation);
-  }
-  
+
   track.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
-    prevTranslate = getTranslateX(track);
     isDragging = true;
-    animationID = requestAnimationFrame(animation);
   });
-  
+
   track.addEventListener("touchmove", (e) => {
     if (!isDragging) return;
     const currentX = e.touches[0].clientX;
-    const deltaX = currentX - startX;
-    currentTranslate = prevTranslate + deltaX;
-  });
-  
-  track.addEventListener("touchend", () => {
-    cancelAnimationFrame(animationID);
-    isDragging = false;
-  
-    const container = document.querySelector('.slider-container');
-    const containerWidth = container.offsetWidth;
-  
-    // Oblicz przesunięcie względem obecnej karty
-    const card = cards[current];
-    const cardLeftInTrack = card.offsetLeft;
-    const centerPosition = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
-    const movedBy = currentTranslate - (-centerPosition);
-  
-    if (Math.abs(movedBy) > card.offsetWidth / 4) {
-      if (movedBy < 0 && current < lastReal) {
+    const diffX = startX - currentX;
+
+    if (Math.abs(diffX) > 50) {
+      if (diffX > 0 && current < lastReal) {
         current++;
-      } else if (movedBy > 0 && current > firstReal) {
+        updateSlider();
+      } else if (diffX < 0 && current > firstReal) {
         current--;
+        updateSlider();
       }
+      isDragging = false;
     }
-  
-    requestAnimationFrame(() => {
-      currentTranslate = 0;
-      prevTranslate = 0;
-      updateSlider();
-    });
+  });
+
+  track.addEventListener("touchend", () => {
+    isDragging = false;
   });
 }
 
@@ -958,7 +927,6 @@
             const intro = document.getElementById("intro-animation");
             if (intro) {
               intro.style.display = "none";
-              intro.style.pointerEvents = "none";
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
