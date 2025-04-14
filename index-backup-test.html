@@ -704,6 +704,11 @@
     }
   }
 
+  .intro-overlay.inactive {
+  display: none !important;
+  pointer-events: none !important;
+  touch-action: none !important;
+}
 
   </style>
 </head>
@@ -934,9 +939,7 @@
           setTimeout(() => {
             const intro = document.getElementById("intro-animation");
             if (intro) {
-              intro.style.display = "none";
-              intro.style.pointerEvents = "none";
-              intro.style.zIndex = "-1";
+              intro.classList.add("inactive");
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
