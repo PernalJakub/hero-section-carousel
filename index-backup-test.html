@@ -936,6 +936,7 @@
             if (intro) {
               intro.style.display = "none";
               intro.style.pointerEvents = "none";
+              intro.style.zIndex = "-1";
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
