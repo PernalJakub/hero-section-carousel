@@ -472,7 +472,7 @@
       border: 1px solid #444;
     }
 
-    .card.bg1 { background: var(--tertiary-light); z-index: 21;}
+    .card.bg1 { background: var(--tertiary-light); }
     .card.bg2 { background: var(--tertiary-light); }
     .card.bg3 { background: var(--tertiary-light); }
     .card.bg4 { background: var(--tertiary-light); }
@@ -703,6 +703,14 @@
       pointer-events: auto;
     }
   }
+
+.fix1 {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
   </style>
 </head>
 <body>
@@ -713,7 +721,7 @@
         <div class="card ghost"></div>
         <!-- KARTA 1 -->
         <div class="card bg1 center-cta bg-image">
-          <div>
+          <div class="fix1">
             <h2 class="fade-in-item">Witamy w zielonym świecie</h2>
             <p class="fade-in-item">Odkryj świeżość, naturę i lekkość w naszym stylu.</p>
             <a href="#" class="fade-in-item">Zacznij teraz</a>
