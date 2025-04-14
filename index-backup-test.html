@@ -29,18 +29,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Poprawiony Slider</title>
   <style>
-    /* HTML heading mapping - Desktop (proposed):
-       h1: --display-large-d (57px)
-       h2: --display-medium-d (45px)
-       h3: --display-small-d (36px)
-       h4: --headline-large-d (32px)
-       h5: --headline-medium-d (28px)
-       h6: --headline-small-d (24px)
-       .subtitle: --title-large-d (22px)
-       p (body-large): --body-large-d (16px)
-       p (body-medium): --body-medium-d (14px)
-       p (body-small): --body-small-d (12px)
-    */
     :root {
       /* Typography Sizes - Desktop */
       --display-large: 57px; /* h1, var(--space-3xl) (48px), Główna hierarchia */
@@ -606,11 +594,7 @@
       border-radius: 8px;
       flex-shrink: 0;
       margin: 0;
-    }
-      
-      /* .logo-square {
-        margin-left: 45px;
-      } */
+      }
     }
 
     .typing-text {
@@ -871,14 +855,11 @@
       
       const startAutoplay = () => {
         if (window.innerWidth < 991) {
-          console.log("📵 Autoplay disabled on small screens");
           return;
         }
         if (autoplayInterval !== null) {
-          console.log("⏭ Autoplay already running");
           return;
         }
-        console.log("▶️ Autoplay started");
         autoplayInterval = setInterval(() => {
           current = current < lastReal ? current + 1 : firstReal;
           updateSlider();
@@ -887,7 +868,6 @@
       
       const stopAutoplay = () => {
         if (autoplayInterval !== null) {
-          console.log("⛔ Autoplay stopped");
           clearInterval(autoplayInterval);
           autoplayInterval = null;
         }
@@ -966,11 +946,9 @@
       const hoverTarget = document.querySelector('.slider-container');
       if (hoverTarget) {
         hoverTarget.addEventListener("mouseenter", () => {
-          console.log("🛑 Mouse entered slider-container – stopping autoplay");
           stopAutoplay();
         });
         hoverTarget.addEventListener("mouseleave", () => {
-          console.log("▶️ Mouse left slider-container – resuming autoplay");
           startAutoplay();
         });
       }
@@ -1016,12 +994,10 @@
           const cardLeftInTrack = card.offsetLeft;
           const translateX = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
 
-          track.classList.add('no-transition');
           track.style.transform = `translateX(-${translateX}px)`;
 
           requestAnimationFrame(() => {
             updateSlider();
-            track.classList.remove('no-transition');
             previousContainerWidth = currentContainerWidth;
           });
         }
