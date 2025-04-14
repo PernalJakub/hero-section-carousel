@@ -283,6 +283,12 @@
       margin: 0;
     }
 
+    @media (max-width: 991px) {
+      .card {
+        height: 580px;
+      }
+    }
+    
     @media (max-width: 599px) {
       .card {
         height: 480px;
@@ -927,6 +933,7 @@
             const intro = document.getElementById("intro-animation");
             if (intro) {
               intro.style.display = "none";
+              intro.style.pointerEvents = "none";
             }
             document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
