@@ -917,15 +917,17 @@
   
     const container = document.querySelector('.slider-container');
     const containerWidth = container.offsetWidth;
+  
+    // Oblicz przesunięcie względem obecnej karty
     const card = cards[current];
     const cardLeftInTrack = card.offsetLeft;
     const centerPosition = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
-    const currentOffset = Math.abs(currentTranslate + centerPosition);
+    const movedBy = currentTranslate - (-centerPosition);
   
-    if (currentOffset > card.offsetWidth / 4) {
-      if (prevTranslate > currentTranslate && current < lastReal) {
+    if (Math.abs(movedBy) > card.offsetWidth / 4) {
+      if (movedBy < 0 && current < lastReal) {
         current++;
-      } else if (prevTranslate < currentTranslate && current > firstReal) {
+      } else if (movedBy > 0 && current > firstReal) {
         current--;
       }
     }
