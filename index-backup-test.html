@@ -946,10 +946,16 @@
         });
       });
     
-      const hoverTarget = root.querySelector(".slider-container");
+      const hoverTarget = root;
       if (hoverTarget) {
-        hoverTarget.addEventListener("mouseenter", stopAutoplay);
-        hoverTarget.addEventListener("mouseleave", startAutoplay);
+        hoverTarget.addEventListener("mouseenter", () => {
+          console.log("🛑 Myszka weszła – zatrzymuję autoplay");
+          stopAutoplay();
+        });
+        hoverTarget.addEventListener("mouseleave", () => {
+          console.log("▶️ Myszka wyszła – uruchamiam autoplay");
+          startAutoplay();
+        });
       }
     
       function enableResizeCentering(isActive) {
