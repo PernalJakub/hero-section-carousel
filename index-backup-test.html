@@ -706,7 +706,7 @@
 </head>
 <body>
 
-  <section class="slider-section">
+  <section class="hero-section slider-section">
     <div class="slider-container">
       <div class="card-track" id="track">
         <div class="card ghost"></div>
@@ -913,7 +913,7 @@
         });
       }
     
-      const container = document.body;
+      const container = root.querySelector('.slider-container');
       const containerWidth = container.offsetWidth;
       const card = cards[1];
       const cardLeftInTrack = card.offsetLeft;
