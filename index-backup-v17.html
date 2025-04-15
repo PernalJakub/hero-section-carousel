@@ -776,54 +776,57 @@
   </section>
 
   <script>
-    let lastClickTime = 0;
-    const CLICK_DELAY = 500;
-    
-    document.addEventListener("DOMContentLoaded", () => {
-      const root = document.querySelector(".hero-section");
-      const track = root.querySelector("#track");
-      const dots = root.querySelector("#dots");
+  let lastClickTime = 0;
+  const CLICK_DELAY = 500; // w ms
+  document.addEventListener("DOMContentLoaded", () => {
+      const track = document.getElementById("track");
       const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
+      
       if (isTouchDevice) {
-        root.querySelectorAll(".arrow").forEach(arrow => {
+        document.querySelectorAll(".arrow").forEach(arrow => {
           arrow.style.display = "none";
         });
       }
-    
+      const dots = document.getElementById("dots");
       const cards = track.children;
       const total = cards.length;
       let current = 1;
       const firstReal = 1;
       const lastReal = total - 2;
-    
+
       const updateSlider = () => {
-        const container = root.querySelector('.slider-container');
+        const container = document.querySelector('.slider-container');
         const containerWidth = container.offsetWidth;
         const card = cards[current];
         const cardLeftInTrack = card.offsetLeft;
         const translateX = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
-    
+
         track.style.transform = `translateX(-${translateX}px)`;
-    
-        root.querySelectorAll(".arrow.left").forEach(btn => btn.disabled = current === firstReal);
-        root.querySelectorAll(".arrow.right").forEach(btn => btn.disabled = current === lastReal);
-    
-        root.querySelectorAll(".card").forEach((card, index) => {
+
+        // Update arrows
+        document.querySelectorAll(".arrow.left").forEach(btn => btn.disabled = current === firstReal);
+        document.querySelectorAll(".arrow.right").forEach(btn => btn.disabled = current === lastReal);
+
+        document.querySelectorAll(".card").forEach((card, index) => {
           const leftArrow = card.querySelector(".arrow.left");
           const rightArrow = card.querySelector(".arrow.right");
-    
+
           if (!isTouchDevice) {
             if (index === current) {
-              if (leftArrow) leftArrow.style.display = current === firstReal ? "none" : "flex";
-              if (rightArrow) rightArrow.style.display = current === lastReal ? "none" : "flex";
+              if (leftArrow) {
+                leftArrow.style.display = current === firstReal ? "none" : "flex";
+              }
+              if (rightArrow) {
+                rightArrow.style.display = current === lastReal ? "none" : "flex";
+              }
             } else {
               if (leftArrow) leftArrow.style.display = "none";
               if (rightArrow) rightArrow.style.display = "none";
             }
           }
         });
-    
+
+        // Update dots
         dots.innerHTML = "";
         for (let i = firstReal; i <= lastReal; i++) {
           const dot = document.createElement("div");
@@ -835,8 +838,8 @@
           dots.appendChild(dot);
         }
       };
-    
-      root.querySelectorAll(".card .arrow.left").forEach(btn => {
+
+      document.querySelectorAll(".card .arrow.left").forEach(btn => {
         btn.addEventListener("click", () => {
           const now = Date.now();
           if (now - lastClickTime < CLICK_DELAY) return;
@@ -847,8 +850,8 @@
           }
         });
       });
-    
-      root.querySelectorAll(".card .arrow.right").forEach(btn => {
+
+      document.querySelectorAll(".card .arrow.right").forEach(btn => {
         btn.addEventListener("click", () => {
           const now = Date.now();
           if (now - lastClickTime < CLICK_DELAY) return;
@@ -859,84 +862,89 @@
           }
         });
       });
-    
+
       let autoplayInterval = null;
-    
+      
       const startAutoplay = () => {
-        if (window.innerWidth < 991) return;
-        if (autoplayInterval !== null) return;
+        if (window.innerWidth < 991) {
+          return;
+        }
+        if (autoplayInterval !== null) {
+          return;
+        }
         autoplayInterval = setInterval(() => {
           current = current < lastReal ? current + 1 : firstReal;
           updateSlider();
         }, 10000);
       };
-    
+      
       const stopAutoplay = () => {
         if (autoplayInterval !== null) {
           clearInterval(autoplayInterval);
           autoplayInterval = null;
         }
       };
-    
+
       function enableTouchSwipe() {
-        if (window.innerWidth >= 992) return;
-    
-        let startX = 0;
-        let isDragging = false;
-    
-        track.addEventListener("touchstart", (e) => {
-          e.preventDefault();
-          startX = e.touches[0].clientX;
-          isDragging = true;
-        }, { passive: false });
-    
-        track.addEventListener("touchmove", (e) => {
-          e.preventDefault();
-          if (!isDragging) return;
-          const currentX = e.touches[0].clientX;
-          const diffX = startX - currentX;
-    
-          if (Math.abs(diffX) > 50) {
-            if (diffX > 0 && current < lastReal) {
-              current++;
-              updateSlider();
-            } else if (diffX < 0 && current > firstReal) {
-              current--;
-              updateSlider();
-            }
-            isDragging = false;
-          }
-        }, { passive: false });
-    
-        track.addEventListener("touchend", () => {
-          isDragging = false;
-        });
+  if (window.innerWidth >= 992) return;
+
+  let startX = 0;
+  let isDragging = false;
+
+  track.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: false });
+
+  track.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diffX = startX - currentX;
+
+    if (Math.abs(diffX) > 50) {
+      if (diffX > 0 && current < lastReal) {
+        current++;
+        updateSlider();
+      } else if (diffX < 0 && current > firstReal) {
+        current--;
+        updateSlider();
       }
-    
+      isDragging = false;
+    }
+  }, { passive: false });
+
+  track.addEventListener("touchend", () => {
+    isDragging = false;
+  });
+}
+
       const container = document.body;
       const containerWidth = container.offsetWidth;
-      const card = cards[1];
+      const card = cards[1]; // pierwsza realna karta
       const cardLeftInTrack = card.offsetLeft;
       const translateX = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
-    
+
       track.style.transition = "none";
       track.style.transform = `translateX(-${translateX}px)`;
-    
+
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           track.style.transition = "transform 0.5s ease-in-out";
           updateSlider();
-    
+          // schowaj intro po animacji
           setTimeout(() => {
-            const intro = root.querySelector("#intro-animation");
+            const intro = document.getElementById("intro-animation");
             if (intro) {
               intro.style.display = "none";
               intro.style.pointerEvents = "none";
               intro.style.zIndex = "-1";
             }
-            root.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
+            document.querySelectorAll(".fade-lock").forEach(el => el.classList.remove("fade-lock"));
             document.body.classList.add("fade-in-ready");
-    
+ 
+            // automatycznie uruchom autoplay, jeśli odpowiednia szerokość
             if (window.innerWidth > 991) {
               startAutoplay();
             } else {
@@ -945,18 +953,23 @@
           }, 5000);
         });
       });
-    
-      const hoverTarget = root.querySelector(".slider-container");
+
+      // Pause on hover
+      const hoverTarget = document.querySelector('.slider-container');
       if (hoverTarget) {
-        hoverTarget.addEventListener("mouseenter", stopAutoplay);
-        hoverTarget.addEventListener("mouseleave", startAutoplay);
+        hoverTarget.addEventListener("mouseenter", () => {
+          stopAutoplay();
+        });
+        hoverTarget.addEventListener("mouseleave", () => {
+          startAutoplay();
+        });
       }
-    
+
       function enableResizeCentering(isActive) {
-        const section = root.querySelector(".slider-section");
-        const container = root.querySelector(".slider-container");
-        const track = root.querySelector(".card-track");
-    
+        const section = document.querySelector(".slider-section");
+        const container = document.querySelector(".slider-container");
+        const track = document.querySelector(".card-track");
+
         if (isActive) {
           section.style.margin = "0 auto";
           container.style.margin = "0 auto";
@@ -969,36 +982,41 @@
           track.style.transition = "transform 0.5s ease-in-out";
         }
       }
-    
+
       let resizeTimer;
       window.addEventListener("resize", () => {
         enableResizeCentering(true);
+
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           enableResizeCentering(false);
           updateSlider();
         }, 300);
       });
-    
+
       let previousContainerWidth = document.body.offsetWidth;
+
       setInterval(() => {
         const currentContainerWidth = document.body.offsetWidth;
+
         if (currentContainerWidth !== previousContainerWidth) {
-          const container = root.querySelector('.slider-container');
+          const container = document.querySelector('.slider-container');
           const containerWidth = container.offsetWidth;
           const card = cards[current];
           const cardLeftInTrack = card.offsetLeft;
           const translateX = cardLeftInTrack - (containerWidth - card.offsetWidth) / 2;
+
           track.style.transform = `translateX(-${translateX}px)`;
-    
+
           requestAnimationFrame(() => {
             updateSlider();
             previousContainerWidth = currentContainerWidth;
           });
         }
       }, 350);
+
     });
-    </script>
+  </script>
 
 </body>
 </html>
